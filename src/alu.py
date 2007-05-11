@@ -1,11 +1,24 @@
-#!/usr/bin/python2.5
-#import myhdl
+#!/usr/bin/python
+
+#-------------------------
+# Module ALU
+#-------------------------
+# Author: Rodrigo Peixoto
+# Date: May 07 2007
+#------------------------------------------------
+# Description: This is the Arithmetic logic unit
+# of the rpexz processor.
+#------------------------------------------------
+
+
 from myhdl import *
 #from myhdl import always_comb, Signal, intbv, Simulation
 from random import randrange
 
 def ALU( a, b, sel, result, error ):
     """
+    This module represents the rpexz's ALU. It can
+    execute severals operations.
     a,b - input value (32 bits signed interger)
     sel - selection (4 bits) {
         0000 - Additoin
