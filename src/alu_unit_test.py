@@ -1,3 +1,15 @@
+#!/usr/bin/python
+
+#-------------------------
+# Module Unittest ALU
+#-------------------------
+# Author: Rodrigo Peixoto
+# Date: May 07 2007
+#------------------------------------------------
+# Description: This is the unittest of the
+# rpexz processor's Arithmetic logic unit.
+#------------------------------------------------
+
 from myhdl import *
 import unittest
 from unittest import TestCase
@@ -8,7 +20,7 @@ from alu import *
 class alu_unit_test( TestCase ):
 
     def test_case_addition( self ):
-        """ checando a soma entre inteiros """
+        """ Check addition between 32 bit integers"""
         def test( a, b, sel, result, error ):
             for i in range( 10 ):
                 r_a, r_b = randrange( 32 ), randrange( 32 )
@@ -29,7 +41,7 @@ class alu_unit_test( TestCase ):
             sim.run( quiet=1 )
 
     def test_case_subtraction( self ):
-        """ checando a subtracao entre inteiros """
+        """ Check subtraction between 32 bit integers"""
         def test( a, b, sel, result, error ):
             for i in range( 10 ):
                 r_a, r_b = randrange( 32 ), randrange( 32 )
