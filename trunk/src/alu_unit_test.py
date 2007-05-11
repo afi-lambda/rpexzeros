@@ -17,7 +17,7 @@ from random import randrange
 from alu import *
 
 
-class alu_unit_test( TestCase ):
+class AluUnitTest( TestCase ):
 
     def abstract_test_case( self, selection , func ):
         def test( a, b, sel, result, error ):
