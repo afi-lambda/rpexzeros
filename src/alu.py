@@ -37,7 +37,7 @@ def ALU( a, b, sel, result, error ):
 
     @always_comb
     def execute_opertion():
-        error.next = 0
+        error.next = intbv(0)[1:]
         ###Addition
         if sel == 0x0:
             result.next = a + b
@@ -46,26 +46,26 @@ def ALU( a, b, sel, result, error ):
             result.next = intbv( a - b )[32:]
         ###And
         elif sel == 0x2:
-            result.next = a and b
+            result.next = a & b
         ###Or
         elif sel == 0x3:
-            result.next = a or b
+            result.next = a | b
         ###Not
         elif sel == 0x4:
-            result.next = not a
+            result.next = ~a
         ###XOR
         elif sel == 0x5:
             result.next = a ^ b
         ###Multiplication
         elif sel == 0x6:
             result.next = a * b
-        ###Division
+        ###Floor Division
         elif sel == 0x7:
             if b == 0x0:
-                error.next = 1
+                error.next = intbv(1)[1:]
                 result.next = 0x0
             else:
-                result.next = a / b
+                result.next = a // b
 
 
         else: raise "Error - Selection Not implemented!"
