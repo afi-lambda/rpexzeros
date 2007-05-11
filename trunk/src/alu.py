@@ -72,7 +72,10 @@ def ALU( a, b, sel, result, error ):
     return execute_opertion
 
 def basic_test():
-
+    """
+    Basic functionality test that generates input signals and
+    prints the ouputs(results).
+    """
     a, b, result = [Signal( intbv( 0 )[32:] ) for i in range( 3 )]
     sel = Signal( intbv( 0 )[4:] )
     error = Signal( intbv( 0 )[1:] )
