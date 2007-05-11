@@ -92,6 +92,7 @@ def basic_test():
     teste = test()
 
     sim = Simulation( alu, teste )
+    alu = toVerilog(ALU,a, b, sel, result, error)
     sim.run( 1000 )
 
 if __name__ == '__main__':
