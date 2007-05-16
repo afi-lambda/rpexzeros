@@ -21,7 +21,7 @@ def ALU( a, b, sel, result, error ):
     execute severals operations.
     a,b - input value (32 bits signed interger)
     sel - selection (4 bits) {
-        0000 - Additoin
+        0000 - Addition
         0001 - Subtraction
         0010 - AND
         0011 - OR
@@ -36,7 +36,7 @@ def ALU( a, b, sel, result, error ):
     """
 
     @always_comb
-    def execute_opertion():
+    def execute_operation():
         error.next = intbv(0)[1:]
         ###Addition
         if sel == 0x0:
@@ -69,7 +69,7 @@ def ALU( a, b, sel, result, error ):
 
 
         else: raise "Error - Selection Not implemented!"
-    return execute_opertion
+    return execute_operation
 
 def basic_test():
     """
