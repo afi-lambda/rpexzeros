@@ -13,6 +13,13 @@ from myhdl import *
 
 memory_data = []
 
+def get_memory_data():
+    return memory_data
+
+def set_memory_data(address, data):
+    if address and data:
+        memory_data[address] = data
+
 def fetch_system_memory():
     mem = []
     try:
@@ -25,15 +32,17 @@ def fetch_system_memory():
         pass
     return mem
 
-def memory( enable, reset, address, read_write, data_in, data_out ):
+def memory( enable, reset, address, load_store, data_in, data_out ):
     """This is the rpexz memory module.
     enable - (1 bit input): enable the memory use
     reset - (1 bit input): memory's reset
     address - (8 bits input): the read_write memory address
-    read_write - (1 bit input): 0 read; 1 write
+    load_store - (1 bit input): 0 read; 1 write
     data_in - (32 bits input): memory input data
     data_out - (32 bist output): memory output data
     """
+
+
     @always( reset.posedge )
     def process1():
         try:
@@ -46,11 +55,13 @@ def memory( enable, reset, address, read_write, data_in, data_out ):
     def process2( enable, address, read_write, data_in, data_out ):
         if enable:
             #write
-            if read_write:
-                memory_data[address] = data_in
+            if load_store:
+                #memory_data[address] = data_in
+                set_memory_data(address, data_in)
             #read
             else:
-                data_out.next = memory_data[address]
+                #data_out.next = memory_data[address]
+                data_out.next = get_memory_data()
             yield delay( 3 )
         else:
             pass
