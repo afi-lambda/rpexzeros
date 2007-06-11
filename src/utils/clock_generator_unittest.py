@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+# -*- coding: latin-1
 #-------------------------
 # Module Unittest ALU
 #-------------------------
@@ -31,13 +31,13 @@ class Clock_generator_UnitTest( TestCase ):
                 self.assertEqual( r_clock, clk_s )
             raise StopSimulation
 
-
         clk = Signal( bool( 0 ) )
         clk_test = clock_generator.clk_gen( clk )
         check = test( clk )
         sim = Simulation( clk_test, check )
         sim.run( quiet=1 )
 
-
 if __name__ == '__main__':
     unittest.main()
+
+
