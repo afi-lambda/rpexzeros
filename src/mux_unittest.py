@@ -16,7 +16,7 @@ class mux2_unit_test( TestCase ):
                 r_a, r_b = intbv( randrange( 32 ) )[32:], intbv( randrange( 32 ) )[32:]
                 a.next, b.next = r_a, r_b
                 sel.next = randrange( 2 )
-                yield delay( 10 )
+                yield delay( 1 )
                 if sel.val == 0:
                     expected = r_a
                 else:
@@ -24,7 +24,7 @@ class mux2_unit_test( TestCase ):
                 actual = result
                 self.assertEqual( actual, expected )
 
-        for width in range( 1000 ):
+        for width in range( 100 ):
             a, b, result = [Signal( intbv( 0 )[32:] ) for i in range( 3 )]
             sel = Signal( intbv( 0 )[1:] )
             mux = mux2( a, b, sel, result )

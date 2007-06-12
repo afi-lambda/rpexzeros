@@ -8,6 +8,7 @@
 from random import randrange
 from exceptions  import Exception
 from myhdl import *
+from utils.clock_generator import *
 
 HIGH, LOW = 1, 0
 
@@ -35,13 +36,7 @@ def test_bench():
     input_1, output_1 = Signal( intbv( 0 )[8:] ), Signal( intbv( 0 )[8:] )
 
     reg = registrador( clk, input_1, enable, clear, output_1 )
-
-    HALF_PERIOD = delay( 10 )
-
-    @always( HALF_PERIOD )
-    def clk_gen():
-        clk.next = not clk
-
+    clkgen = clk_gen( clk )
     @instance
     def stimgen():
         for i in range( 10 ):
@@ -55,7 +50,7 @@ def test_bench():
         while 1:
             yield clk.posedge
             print "%-6s%-7s%-6s%-6s" % ( hex( input_1 ), enable, clear, hex( output_1 ) )
-    return clk_gen, stimgen, reg, monitor
+    return clkgen, stimgen, reg, monitor
 
 if __name__ == '__main__':
     tb = test_bench()
