@@ -18,7 +18,7 @@ class stack_unittest( unittest.TestCase ):
         """Resetando a pilha 1000 vezes"""
         def test( clk, reset, enable, push_pop, input_1_t, output_1_t, output_2_t ):
             for i in range( 10 ):
-                reset.next = 1
+                reset.next = 0
                 yield clk.posedge
                 reset.next = 0
                 yield clk.posedge
@@ -27,10 +27,9 @@ class stack_unittest( unittest.TestCase ):
             raise StopSimulation
 
         clk_s, reset_s, enable_s, push_pop_s = [Signal( bool( 0 ) ) for i in range( 4 )]
-        output_1_s, output_2_s = [Signal( intbv( 0 )[32:] ) for i in range( 2 )]
-        output_1_s.next = 1
-        output_2_s.next = 1
+        output_1_s, output_2_s = [Signal( intbv( 1 )[32:] ) for i in range( 2 )]
         input_1_s = Signal( intbv( 0 )[32:] )
+
         clkgen = clk_gen( clk_s )
         device = stack( clk_s, reset_s, enable_s, push_pop_s, input_1_s, output_1_s, output_2_s)
         check = test(clk_s, reset_s, enable_s, push_pop_s, input_1_s, output_1_s, output_2_s)
