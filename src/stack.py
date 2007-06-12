@@ -18,7 +18,6 @@ def stack( clk, reset, enable, push_pop, input_stack_1, output_stack_1, output_s
     inside_clear = Signal( bool( 0 ) )
 
     instance_1 = mux2( a=input_stack_1, b=reg_2_out, sel=push_pop, result=mux_1_out )
-    instance_1 = mux2( a=input_stack_1, b=0, sel=push_pop, result=mux_1_out )
     instance_2 = registrador( clk=clk, input_1=mux_1_out, enable=enable, clear=inside_clear, output_1=reg_1_out )
     instance_3 = mux2( a=reg_1_out, b=0, sel=push_pop, result=mux_2_out )
     instance_4 = registrador( clk=clk, input_1=mux_2_out, enable=enable, clear=inside_clear, output_1=reg_2_out )
