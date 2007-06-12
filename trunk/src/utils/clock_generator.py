@@ -21,4 +21,5 @@ def clk_gen( clk ):
     @always( delay ( CLOCK_DURATION ) )
     def process():
         clk.next = not clk
+
     return process
