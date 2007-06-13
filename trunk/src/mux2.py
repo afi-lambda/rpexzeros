@@ -16,8 +16,8 @@ def mux2( a, b, sel, result ):
     """
     @always_comb
     def process():
-        if sel == 0:
-            result.next = a
-        else:
+        if sel:
             result.next = b
+        else:
+            result.next = a
     return process
