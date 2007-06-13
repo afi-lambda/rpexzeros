@@ -5,27 +5,27 @@
 # Author: Rodrigo Peixoto
 #--------------------------
 
+from mux2 import *
 from myhdl import *
 from registrador import *
-from mux2 import *
 
-def stack( clk, reset, enable, push_pop, input_stack_1, output_stack_1, output_stack_2 ):
+def stack( clk, reset, enable, push_pop_stack, input_stack_1, output_stack_1, output_stack_2 ):
 
-    reg_1_out, reg_2_out, mux_1_out, mux_2_out = [Signal( intbv(0)[32:] ) for i in range( 4 )]
+    reg_1_out, reg_2_out, mux_1_out, mux_2_out = [Signal( intbv( 0 )[32:] ) for i in range( 4 )]
     reg_1_out = output_stack_1
     reg_2_out = output_stack_2
     inside_clear = Signal( bool( 0 ) )
+    pp = push_pop_stack
 
-    mux_1 = mux2( a=input_stack_1, b=reg_2_out, sel=push_pop, result=mux_1_out )
+    mux_1 = mux2( a=input_stack_1, b=reg_2_out, sel=pp, result=mux_1_out )
     reg_1 = registrador( clk=clk, input_1=mux_1_out, enable=enable, clear=inside_clear, output_1=reg_1_out )
-    mux_2 = mux2( a=reg_1_out, b=0, sel=push_pop, result=mux_2_out )
+    mux_2 = mux2( a=reg_1_out, b=0, sel=pp, result=mux_2_out )
     reg_2 = registrador( clk=clk, input_1=mux_2_out, enable=enable, clear=inside_clear, output_1=reg_2_out )
 
     @always( clk.posedge )
     def process1():
         if reset:
             inside_clear.next = 1
-            print output_stack_1
         else:
             inside_clear.next = 0
 
