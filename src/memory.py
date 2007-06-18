@@ -11,28 +11,29 @@
 import os
 from myhdl import *
 
-memory_data = []
+MEMORY_DATA = []
 
-def get_memory_data():
-    return memory_data
+def get_memory_data( address ):
+    return MEMORY_DATA[address]
 
-def set_memory_data(address, data):
+def set_memory_data( address, data ):
     if address and data:
-        memory_data[address] = data
+        MEMORY_DATA[address] = data
 
 def fetch_system_memory():
     mem = []
     try:
         file = open( "/tmp/rpexz_memory.tmp", 'r' )
         mem = file.readlines()
-        filter = lambda a: int( a[:-1] )
-        mem = map( filter, mem )
+        mem = [int( x.strip(), 16 ) for x in mem]
+        #for i in mem:
+        #    print "0x%x" % i
         file.close()
     except IOError:
         pass
     return mem
 
-def memory( enable, reset, address, load_store, data_in, data_out ):
+def memory( clk, enable, address, load_store, data_in, data_out ):
     """This is the rpexz memory module.
     enable - (1 bit input): enable the memory use
     reset - (1 bit input): memory's reset
@@ -41,32 +42,20 @@ def memory( enable, reset, address, load_store, data_in, data_out ):
     data_in - (32 bits input): memory input data
     data_out - (32 bist output): memory output data
     """
-
-
-    @always( reset.posedge )
-    def process1():
-        try:
-            memory_data = []
-            os.remove( "/tmp/rpexz_memory.tmp" )
-        except:
-            pass
-
+    MEMORY_DATA = fetch_system_memory()
     @instance
-    def process2( enable, address, read_write, data_in, data_out ):
+    def process2():#( enable, address, read_write, data_in, data_out ):
+        yield clk.posedge
         if enable:
-            #write
+            #store
             if load_store:
-                #memory_data[address] = data_in
-                set_memory_data(address, data_in)
-            #read
+                MEMORY_DATA.insert( address, data_in )
+            #load
             else:
-                #data_out.next = memory_data[address]
-                data_out.next = get_memory_data()
-            yield delay( 3 )
-        else:
-            pass
+                data_out.next = MEMORY_DATA[int( address )]
+            yield clk.posedge
 
-    return process1 , process2
+    return process2
 
 if __name__ == '__main__':
     print fetch_system_memory()
