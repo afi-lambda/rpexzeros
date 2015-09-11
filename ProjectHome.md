@@ -1,0 +1,1 @@
+This project has the intent to build a structured Python dedicated processor in Python using MyHDL hardware description language . This processor may be used to develop a platform python dedicated. Python will runs natively on this architecture.
